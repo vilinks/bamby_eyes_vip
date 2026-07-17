@@ -42,7 +42,7 @@
       <h1 id="version-one-title">Where to next?</h1>
       <p class="first-version-description">Exclusive selections, behind-the-scenes moments and personal answers — choose your favorite place.</p>
       <div class="first-version-primary-links">
-        <a class="first-version-link primary" href="https://onlyfans.com/bamby_eyes_vip/trial/nmmknybtptbjgvs9g07fvmyh7tbo1cia" rel="noreferrer" target="_blank" style="--link-delay:180ms"><span class="first-version-monogram">OF</span><span class="first-version-link-copy"><small>ONLYFANS</small><strong>OnlyFans</strong><span>Private drops and direct messages</span></span><span class="first-version-arrow" aria-hidden="true">↗</span></a><a class="first-version-link secondary" href="https://fansly.com/littleyulia/t12" rel="noreferrer" target="_blank" style="--link-delay:270ms"><span class="first-version-monogram">F</span><span class="first-version-link-copy"><small>FANSLY</small><strong>Fansly</strong><span>Exclusive archive and fresh updates</span></span><span class="first-version-arrow" aria-hidden="true">↗</span></a>
+        <a class="first-version-link primary" href="https://onlyfans.com/bamby_eyes_vip/trial/nmmknybtptbjgvs9g07fvmyh7tbo1cia" rel="noreferrer" target="_blank" style="--link-delay:180ms" data-analytics-kind="onlyfans" data-analytics-name="OnlyFans"><span class="first-version-monogram">OF</span><span class="first-version-link-copy"><small>ONLYFANS</small><strong>OnlyFans</strong><span>Private drops and direct messages</span></span><span class="first-version-arrow" aria-hidden="true">↗</span></a><a class="first-version-link secondary" href="https://fansly.com/littleyulia/t12" rel="noreferrer" target="_blank" style="--link-delay:270ms" data-analytics-kind="fansly" data-analytics-name="Fansly"><span class="first-version-monogram">F</span><span class="first-version-link-copy"><small>FANSLY</small><strong>Fansly</strong><span>Exclusive archive and fresh updates</span></span><span class="first-version-arrow" aria-hidden="true">↗</span></a>
       </div>
       <div class="first-version-divider"><span>KEEP UP WITH ME</span><span>00</span></div>
       <div class="first-version-socials"></div>
@@ -50,5 +50,56 @@
     </section>
   </main>
   <script>(()=>{const button=document.querySelector(".share-button");const label=document.querySelector(".share-label");button?.addEventListener("click",async()=>{try{if(navigator.share){await navigator.share({title:document.title,url:location.href})}else{await navigator.clipboard.writeText(location.href);label.textContent="COPIED";setTimeout(()=>{label.textContent="SHARE"},1500)}}catch{}})})()</script>
+  <script>
+    (() => {
+      const config = {"endpoint":"https://james-link-analytics.julliaxxx228.workers.dev","modelSlug":"bamby_eyes_vip","linkPath":"bamby_eyes_vip/8","linkSlug":"8","section":"explicit","format":"short","destination":"Тикпорн"};
+      const storageKey = "james-link-session";
+      const fallbackId = () => Date.now().toString(36) + "-" + Math.random().toString(36).slice(2);
+      const eventId = () => (globalThis.crypto?.randomUUID?.() || fallbackId()).replace(/[^a-zA-Z0-9:_-]/g, "-");
+      let sessionId = "";
+      try {
+        sessionId = sessionStorage.getItem(storageKey) || eventId();
+        sessionStorage.setItem(storageKey, sessionId);
+      } catch {
+        sessionId = eventId();
+      }
+      const send = (eventType, targetKind, targetName = "") => {
+        const body = JSON.stringify({
+          eventId: eventId(),
+          eventType,
+          targetKind,
+          targetName,
+          modelSlug: config.modelSlug,
+          linkPath: config.linkPath,
+          linkSlug: config.linkSlug,
+          section: config.section,
+          format: config.format,
+          destination: config.destination,
+          sessionId
+        });
+        const url = config.endpoint + "/v1/events";
+        try {
+          if (navigator.sendBeacon?.(url, new Blob([body], { type: "text/plain;charset=UTF-8" }))) return;
+        } catch {}
+        fetch(url, {
+          method: "POST",
+          body,
+          headers: { "content-type": "text/plain;charset=UTF-8" },
+          mode: "cors",
+          keepalive: true
+        }).catch(() => {});
+      };
+      send("page_view", "page");
+      document.querySelectorAll("[data-analytics-kind]").forEach((element) => {
+        element.addEventListener("click", () => {
+          send(
+            "click",
+            element.dataset.analyticsKind,
+            element.dataset.analyticsName || ""
+          );
+        }, { capture: true });
+      });
+    })();
+  </script>
 </body>
 </html>
